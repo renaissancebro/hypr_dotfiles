@@ -1,0 +1,17 @@
+* {
+    color: #dce0e8;
+    font-family: "JetBrainsMono Nerd Font";
+    font-size: 13px;
+}
+
+window#waybar {
+    background: rgba(15,20,26,0.6);
+    border-bottom: 2px solid #5277c3;
+}
+
+#workspaces button.focused {
+    background: #5277c3;
+    color: #0f141a;
+    border-radius: 6px;
+}
+
