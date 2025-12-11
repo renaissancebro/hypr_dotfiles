@@ -69,7 +69,7 @@
   services.xserver.xkb = {
     layout = "us";
     variant = "";
-    #xkbOptions = "ctrl:nocaps";
+    options = "ctrl:nocaps";
   };
 
   # Enable CUPS to print documents.
@@ -78,9 +78,6 @@
   # Enable sound with pipewire.
     
   hardware.enableAllFirmware = true;
-  services.pulseaudio.enable = pkgs.lib.mkForce false;
-#  services.pulseaudio.enable = false;
-  hardware.pulseaudio.enable = false; # belt + suspenders
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -103,6 +100,9 @@
   boot.kernelParams = [
     "amd_pstate=active"  # or "guided" if you want the kernel to balance perf vs power
   ];
+# Use AMD GPU backlight instead of ACPI fallback
+# Ensure AMDGPU driver is loaded
+  boot.kernelModules = [ "amdgpu" ];
 
   # Optional: explicitly pick a governor; with amd_pstate this usually becomes "powersave" / "performance"
   powerManagement.cpuFreqGovernor = "powersave"; 
@@ -221,6 +221,7 @@
     python311Packages.python-lsp-server
 
 	# Steam stuff
+	gamemode
 
 	# Audio
     alsa-utils
@@ -239,6 +240,8 @@
     networkmanager
     # hyprpaper
     swww 
+    brightnessctl
+    light #fallback
 
 	# Python + Jupyter (via Nix)
 	(python311.withPackages (ps: with ps; [
@@ -256,10 +259,10 @@
 
 
   # Remap keys	
-  services.xserver = {
-    layout = "us";
-    xkb.options = "ctrl:nocaps";
-  };
+  # services.xserver = {
+  # layout = "us";
+	#  xkb.options = "ctrl:nocaps";
+	#};
 
 
 
