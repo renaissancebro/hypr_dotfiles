@@ -75,6 +75,13 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
+  services.gnome.gnome-keyring.enable = true;
+
+  security.pam.services = { 
+	  login.enableGnomeKeyring = true;
+  	  sudo.enableGnomeKeyring = true;
+	};
+
   # Enable sound with pipewire.
     
   hardware.enableAllFirmware = true;
@@ -134,7 +141,17 @@
   services.blueman.enable = true;
 
   # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
+  services.libinput = {
+	enable = true;
+
+
+	mouse = {
+	  naturalScrolling = true;
+	};
+	touchpad = {
+	  naturalScrolling = true;
+	};
+  };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.joshuaf = {
@@ -211,6 +228,8 @@
     gcc
     nodejs
     nodePackages.npm
+    gnome-keyring
+    libsecret
     
     # LSP servers
     pyright
@@ -242,6 +261,8 @@
     swww 
     brightnessctl
     light #fallback
+    gammastep
+
 
 	# Python + Jupyter (via Nix)
 	(python311.withPackages (ps: with ps; [
@@ -258,6 +279,23 @@
   nix.settings.experimental-features = ["nix-command" "flakes" ];
 
 
+
+  location = {
+    latitude = 38.627003;   # Replace with your latitude
+    longitude = -90.199402;# Replace with your longitude
+    };
+  services.redshift = {
+    enable = true;
+    package = pkgs.gammastep;
+    brightness = {
+      day = "0.6";
+      night = "0.6";
+    };
+    temperature = {
+      day = 4000;
+      night = 3000;
+    };
+  };
   # Remap keys	
   # services.xserver = {
   # layout = "us";
